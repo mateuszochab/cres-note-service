@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 public class ArrivingNote {
 
-	private long id;
+	private int id;
 	private String message;
 	
 	

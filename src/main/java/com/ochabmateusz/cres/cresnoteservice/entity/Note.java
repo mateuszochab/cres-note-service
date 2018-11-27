@@ -1,26 +1,20 @@
 package com.ochabmateusz.cres.cresnoteservice.entity;
 
-import java.util.UUID;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "note")
+@Table(name = "note") @ToString
 public class Note {
 
 	@Getter
 	@Id
 	@Column(name = "id")
-	private UUID id;
+	private int id;
 
 	@Getter
 	@Setter
@@ -29,6 +23,7 @@ public class Note {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "iduser_fk")
+	@JsonBackReference
 	private User user;
 
 //	@Temporal(TemporalType.TIMESTAMP)
@@ -42,12 +37,11 @@ public class Note {
 //	private Date updatedDate;
 
 	protected Note() {
-		this.id = UUID.randomUUID();
+		//this.id = UUID.randomUUID();
 
 	}
 
 	public Note(String text, User user) {
-		this();
 		this.text = text;
 		this.user = user;
 

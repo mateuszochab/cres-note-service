@@ -1,39 +1,28 @@
 package com.ochabmateusz.cres.cresnoteservice.entity;
 
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotBlank;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "userss")
-//@EntityListeners(AuditingEntityListener.class) // uzywane do automatycznego tworzenia pol created,updated
-//@JsonIgnoreProperties(value = { "created", "updated" }, allowGetters = true)
+@EntityListeners(AuditingEntityListener.class) // uzywane do automatycznego tworzenia pol created,updated
+@JsonIgnoreProperties(value = { "created", "updated" }, allowGetters = true)
 public class User {
 
 	@Getter
 	@Id
 	@GeneratedValue
-	private Long id;
+	private int id;
 
 	@Getter
 	@Setter
@@ -82,16 +71,17 @@ public class User {
 	@LastModifiedDate
 	private Date updated;
 	
-	@OneToMany(mappedBy = "userss", cascade = CascadeType.ALL)
-	private Set<Note> notes;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Note> notes;
 
-	public Set<Note> getNotes() {
+	public List<Note> getNotes() {
 
 		return this.notes;
 
 	}
 
-	public void setNotes(Set<Note> notes) {
+	public void setNotes(List<Note> notes) {
 
 		this.notes = notes;
 	}
